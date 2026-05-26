@@ -9,7 +9,7 @@ pipeline {
   parameters {
     string(name: 'TEST_STUDENT_EMAIL', defaultValue: '', description: 'BANK student email')
     password(name: 'TEST_STUDENT_PASSWORD', defaultValue: '', description: 'BANK student password')
-    test(name: 'TEST', defaultValue: '', description: 'TESTTESTTESTTEST')
+    string(name: 'TEST', defaultValue: '', description: 'TESTTESTTESTTEST')
     string(name: 'TEST_BRANCH', defaultValue: 'main', description: 'Git branch is configured on the Multibranch job; this is kept for lesson visibility')
   }
 
