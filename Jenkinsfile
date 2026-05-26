@@ -6,6 +6,12 @@ pipeline {
     disableConcurrentBuilds()
   }
 
+  parameters {
+    string(name: 'TEST_STUDENT_EMAIL', defaultValue: '', description: 'BANK student email')
+    password(name: 'TEST_STUDENT_PASSWORD', defaultValue: '', description: 'BANK student password')
+    string(name: 'TEST_BRANCH', defaultValue: 'main', description: 'Git branch is configured on the Multibranch job; this is kept for lesson visibility')
+  }
+
   environment {
     TEST_API_BASE_URL = 'http://api-gateway:8080'
     TEST_COMMAND = 'pytest -q'
@@ -50,6 +56,14 @@ pipeline {
               . .venv/bin/activate
               export TEST_API_BASE_URL="${TEST_API_BASE_URL:-http://api-gateway:8080}"
               echo "[INFO] TEST_API_BASE_URL=${TEST_API_BASE_URL}"
+              if [ -z "${TEST_STUDENT_EMAIL:-}" ]; then
+                echo "[ERROR] TEST_STUDENT_EMAIL is required"
+                exit 1
+              fi
+              if [ -z "${TEST_STUDENT_PASSWORD:-}" ]; then
+                echo "[ERROR] TEST_STUDENT_PASSWORD is required"
+                exit 1
+              fi
               eval "${TEST_COMMAND:-pytest -q} --alluredir=allure-results"
               echo $? > .test-exit-code
             ''',
